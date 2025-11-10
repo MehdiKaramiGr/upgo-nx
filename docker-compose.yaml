@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  upgonx:
+    build: .
+    container_name: upgo-nx
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: upgo-postgres
+    environment:
+      POSTGRES_USER: upgo_user
+      POSTGRES_PASSWORD: upgo_pass
+      POSTGRES_DB: upgo_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: upgo-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@upgo.local
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
