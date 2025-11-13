@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model access_actions {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique @db.VarChar(50)
+  description        String?
+  created_at         DateTime?            @default(now()) @db.Timestamp(6)
+  role_action_access role_action_access[]
+}
+
+model app_pages {
+  id               Int                @id @default(autoincrement())
+  name             String             @db.VarChar(100)
+  path             String             @unique
+  description      String?
+  created_at       DateTime?          @default(now()) @db.Timestamp(6)
+  icon_name        String?
+  role_page_access role_page_access[]
+}
+
+model audit_logs {
+  id         BigInt    @id @default(autoincrement())
+  user_id    String?   @db.Uuid
+  action     String    @db.VarChar(100)
+  details    Json?     @default("{}")
+  ip_address String?   @db.Inet
+  user_agent String?
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  users      users?    @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+
+  @@index([action], map: "idx_audit_logs_action")
+  @@index([created_at(sort: Desc)], map: "idx_audit_logs_created_at")
+  @@index([user_id], map: "idx_audit_logs_user_id")
+}
+
+model refresh_tokens {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String?   @db.Uuid
+  token      String
+  user_agent String?
+  ip_address String?
+  expires_at DateTime  @db.Timestamp(6)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model role_action_access {
+  id             BigInt         @id @default(autoincrement())
+  role_id        Int
+  action_id      Int
+  created_at     DateTime?      @default(now()) @db.Timestamp(6)
+  access_actions access_actions @relation(fields: [action_id], references: [id], onDelete: Cascade)
+  roles          roles          @relation(fields: [role_id], references: [id], onDelete: Cascade)
+}
+
+model role_page_access {
+  id         BigInt     @id @default(autoincrement())
+  role_id    Int?
+  page_id    Int?
+  created_at DateTime?  @default(now()) @db.Timestamp(6)
+  app_pages  app_pages? @relation(fields: [page_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  roles      roles?     @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model roles {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique @db.VarChar(50)
+  description        String?
+  role_action_access role_action_access[]
+  role_page_access   role_page_access[]
+  user_roles         user_roles[]
+}
+
+model user_roles {
+  user_id     String    @db.Uuid
+  role_id     Int
+  assigned_at DateTime? @default(now()) @db.Timestamp(6)
+  roles       roles     @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users       users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, role_id])
+}
+
+model users {
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username       String           @unique @db.VarChar(50)
+  email          String           @unique @db.VarChar(120)
+  password_hash  String
+  full_name      String?          @db.VarChar(100)
+  is_active      Boolean?         @default(true)
+  created_at     DateTime?        @default(now()) @db.Timestamp(6)
+  updated_at     DateTime?        @default(now()) @db.Timestamp(6)
+  audit_logs     audit_logs[]
+  refresh_tokens refresh_tokens[]
+  user_roles     user_roles[]
+}
