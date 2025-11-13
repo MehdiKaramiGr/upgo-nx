@@ -5,8 +5,8 @@ import { Button } from "@heroui/react";
 
 export default function Home() {
 	return (
-		<div className="flex justify-center items-center bg-zinc-50 min-h-screen font-sans">
-			<main className="flex flex-col justify-between items-center sm:items-start bg-white dark:bg-black px-16 py-32 w-full max-w-3xl min-h-screen">
+		<div className="flex justify-center items-center min-h-screen font-sans">
+			<div className="flex flex-col justify-between items-center sm:items-start px-16 py-32 w-full max-w-3xl min-h-screen">
 				<Image
 					className="dark:invert"
 					src="/nx-dark.png"
@@ -15,7 +15,6 @@ export default function Home() {
 					height={20}
 					priority
 				/>
-
 				<div className="flex flex-col items-center sm:items-start gap-6 sm:text-left text-center">
 					<h1 className="max-w-xs font-semibold text-black dark:text-zinc-50 text-3xl leading-10 tracking-tight">
 						To get started, edit the page.tsx file.
@@ -39,7 +38,8 @@ export default function Home() {
 						center.
 					</p>
 				</div>
-				<div className="">test</div>
+				<Button color="primary">Button</Button>
+				<Button color="secondary">Button</Button>
 				<div className="flex sm:flex-row flex-col gap-4 font-medium text-base">
 					<a
 						className="flex justify-center items-center gap-2 bg-foreground hover:bg-[#383838] dark:hover:bg-[#ccc] px-5 rounded-full w-full md:w-[158px] h-12 text-background transition-colors"
@@ -58,7 +58,7 @@ export default function Home() {
 						Documentation
 					</a>
 				</div>
-			</main>
+			</div>
 		</div>
 	);
 }
