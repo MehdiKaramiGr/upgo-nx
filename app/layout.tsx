@@ -3,7 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 // @ts-ignore: allow side-effect CSS import without type declarations
 import "./globals.css";
 import { Providers } from "./providers";
-import Header from "@/components/Header";
+import Header from "@/components/header";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ToastProvider } from "@heroui/toast";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -33,6 +35,7 @@ export default function RootLayout({
 				<Providers>
 					<div className="min-h-[98vh]">
 						<Header />
+						<ToastProvider />
 						<main>{children}</main>
 					</div>
 				</Providers>

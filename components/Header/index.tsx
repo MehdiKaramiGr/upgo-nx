@@ -1,7 +1,11 @@
 import { SunMoon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
-import ThemeChangeButton from "./ThemeChangeButton";
+import ThemeChangeButton from "./theme-change-button";
+
+import SignInModal from "../signin-modal";
+import { useCurrentUser } from "@/framework/auth/use-current-user";
+import UserBox from "./user-box";
 
 const Header = () => {
 	return (
@@ -43,6 +47,7 @@ const Header = () => {
 					</a>
 				</nav>
 				<ThemeChangeButton />
+				<UserBox />
 			</div>
 		</header>
 	);

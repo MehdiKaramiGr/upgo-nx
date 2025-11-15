@@ -226,7 +226,7 @@ const config: Config = {
 							foreground: "#fff",
 						},
 						focus: "#006FEE",
-						overlay: "#ffffff",
+						overlay: "#000000",
 					},
 				},
 			},

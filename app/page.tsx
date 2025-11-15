@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "@heroui/react";
+import http from "@/lib/http";
 
 export default function Home() {
 	return (
