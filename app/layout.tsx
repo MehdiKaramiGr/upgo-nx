@@ -6,7 +6,8 @@ import { Providers } from "./providers";
 // import Header from "@/components/header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "@heroui/toast";
-import Header from "@/components/Header";
+import Header from "@/components/header";
+// import Header from "@/components/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
