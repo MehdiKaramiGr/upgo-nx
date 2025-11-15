@@ -1,3 +1,3 @@
 "use client";
-
-export { Button } from "@heroui/react";
+import { Button } from "@heroui/react";
+export default Button;

@@ -2,146 +2,164 @@
 @config "../hero.ts";
 
 :root {
-	--background: #ffffff;
-	--foreground: #171717;
+  --background: #ffffff;
+  --foreground: #171717;
 }
 html.dark {
-	--background: #0a0a0a;
-	--foreground: #ededed;
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 
-	--color-primary-50: #eff3ff;
-	--color-primary-100: #dbe4fe;
-	--color-primary-200: #bfd0fe;
-	--color-primary-300: #93affd;
-	--color-primary-400: #6088fa;
-	--color-primary-500: #3b6cf6;
-	--color-primary-600: #2559eb;
-	--color-primary-700: #1d4ed8;
-	--color-primary-800: #1e44af;
-	--color-primary-900: #1e3a8a;
-	--color-primary-950: #172754;
+  --color-primary-50: #eff3ff;
+  --color-primary-100: #dbe4fe;
+  --color-primary-200: #bfd0fe;
+  --color-primary-300: #93affd;
+  --color-primary-400: #6088fa;
+  --color-primary-500: #3b6cf6;
+  --color-primary-600: #2559eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e44af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172754;
 
-	--color-secondary-50: #f0faff;
-	--color-secondary-100: #e0f5fe;
-	--color-secondary-200: #bae8fd;
-	--color-secondary-300: #7dd5fc;
-	--color-secondary-400: #38bcf8;
-	--color-secondary-500: #0ea5e9;
-	--color-secondary-600: #028ac7;
-	--color-secondary-700: #0370a1;
-	--color-secondary-800: #075e85;
-	--color-secondary-900: #0c506e;
-	--color-secondary-950: #083549;
+  --color-secondary-50: #f0faff;
+  --color-secondary-100: #e0f5fe;
+  --color-secondary-200: #bae8fd;
+  --color-secondary-300: #7dd5fc;
+  --color-secondary-400: #38bcf8;
+  --color-secondary-500: #0ea5e9;
+  --color-secondary-600: #028ac7;
+  --color-secondary-700: #0370a1;
+  --color-secondary-800: #075e85;
+  --color-secondary-900: #0c506e;
+  --color-secondary-950: #083549;
 
-	--color-accent-50: #fefae8;
-	--color-accent-100: #fef2c3;
-	--color-accent-200: #fee78a;
-	--color-accent-300: #fdd847;
-	--color-accent-400: #facc15;
-	--color-accent-500: #eabd08;
-	--color-accent-600: #caa204;
-	--color-accent-700: #a18207;
-	--color-accent-800: #856d0e;
-	--color-accent-900: #715e12;
-	--color-accent-950: #423606;
+  --color-accent-50: #fefae8;
+  --color-accent-100: #fef2c3;
+  --color-accent-200: #fee78a;
+  --color-accent-300: #fdd847;
+  --color-accent-400: #facc15;
+  --color-accent-500: #eabd08;
+  --color-accent-600: #caa204;
+  --color-accent-700: #a18207;
+  --color-accent-800: #856d0e;
+  --color-accent-900: #715e12;
+  --color-accent-950: #423606;
 
-	--color-bg-light-50: #f3f4f6;
-	--color-bg-light-100: #edeef1;
-	--color-bg-light-200: #d7dbe0;
-	--color-bg-light-300: #b3bbc6;
-	--color-bg-light-400: #8a96a6;
-	--color-bg-light-500: #6c798b;
-	--color-bg-light-600: #566173;
-	--color-bg-light-700: #474f5d;
-	--color-bg-light-800: #3d444f;
-	--color-bg-light-900: #363b44;
-	--color-bg-light-950: #24272d;
+  --color-bg-light-50: #f3f4f6;
+  --color-bg-light-100: #edeef1;
+  --color-bg-light-200: #d7dbe0;
+  --color-bg-light-300: #b3bbc6;
+  --color-bg-light-400: #8a96a6;
+  --color-bg-light-500: #6c798b;
+  --color-bg-light-600: #566173;
+  --color-bg-light-700: #474f5d;
+  --color-bg-light-800: #3d444f;
+  --color-bg-light-900: #363b44;
+  --color-bg-light-950: #24272d;
 
-	--color-bg-dark-50: #f6f7f8;
-	--color-bg-dark-100: #e5e7eb;
-	--color-bg-dark-200: #dadde3;
-	--color-bg-dark-300: #c1c7cf;
-	--color-bg-dark-400: #a2aab8;
-	--color-bg-dark-500: #8c93a5;
-	--color-bg-dark-600: #7a8096;
-	--color-bg-dark-700: #6e7287;
-	--color-bg-dark-800: #5d5f70;
-	--color-bg-dark-900: #4d4f5b;
-	--color-bg-dark-950: #31323a;
+  --color-bg-dark-50: #f6f7f8;
+  --color-bg-dark-100: #e5e7eb;
+  --color-bg-dark-200: #dadde3;
+  --color-bg-dark-300: #c1c7cf;
+  --color-bg-dark-400: #a2aab8;
+  --color-bg-dark-500: #8c93a5;
+  --color-bg-dark-600: #7a8096;
+  --color-bg-dark-700: #6e7287;
+  --color-bg-dark-800: #5d5f70;
+  --color-bg-dark-900: #4d4f5b;
+  --color-bg-dark-950: #31323a;
 
-	--color-text-primary-50: #f4f6fb;
-	--color-text-primary-100: #e8ecf6;
-	--color-text-primary-200: #cbd8ec;
-	--color-text-primary-300: #9db6dc;
-	--color-text-primary-400: #6990c7;
-	--color-text-primary-500: #4672b1;
-	--color-text-primary-600: #345995;
-	--color-text-primary-700: #2b4779;
-	--color-text-primary-800: #273e65;
-	--color-text-primary-900: #253555;
-	--color-text-primary-950: #111827;
+  --color-text-primary-50: #f4f6fb;
+  --color-text-primary-100: #e8ecf6;
+  --color-text-primary-200: #cbd8ec;
+  --color-text-primary-300: #9db6dc;
+  --color-text-primary-400: #6990c7;
+  --color-text-primary-500: #4672b1;
+  --color-text-primary-600: #345995;
+  --color-text-primary-700: #2b4779;
+  --color-text-primary-800: #273e65;
+  --color-text-primary-900: #253555;
+  --color-text-primary-950: #111827;
 
-	--color-text-secondary-50: #f7f8f8;
-	--color-text-secondary-100: #edeef1;
-	--color-text-secondary-200: #d8dbdf;
-	--color-text-secondary-300: #b6bac3;
-	--color-text-secondary-400: #8e95a2;
-	--color-text-secondary-500: #6b7280;
-	--color-text-secondary-600: #5b616e;
-	--color-text-secondary-700: #4a4e5a;
-	--color-text-secondary-800: #40444c;
-	--color-text-secondary-900: #383a42;
-	--color-text-secondary-950: #25272c;
+  --color-text-secondary-50: #f7f8f8;
+  --color-text-secondary-100: #edeef1;
+  --color-text-secondary-200: #d8dbdf;
+  --color-text-secondary-300: #b6bac3;
+  --color-text-secondary-400: #8e95a2;
+  --color-text-secondary-500: #6b7280;
+  --color-text-secondary-600: #5b616e;
+  --color-text-secondary-700: #4a4e5a;
+  --color-text-secondary-800: #40444c;
+  --color-text-secondary-900: #383a42;
+  --color-text-secondary-950: #25272c;
 }
 
 body {
-	background: var(--background) !important;
-	color: var(--foreground) !important;
-	font-family: Arial, Helvetica, sans-serif;
+  background: var(--background) !important;
+  color: var(--foreground) !important;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
-	position: absolute;
-	inset: 0;
+  position: absolute;
+  inset: 0;
 }
 
 .container::before {
-	content: "";
-	position: absolute;
-	inset: -120%;
-	rotate: -45deg;
-	background: #000000;
-	background-image: radial-gradient(
-			3px 100px at 0px 235px,
-			rgb(255, 140, 17),
-			transparent
-		),
-		radial-gradient(2px 100px at 300px 235px, rgb(255, 119, 0), transparent),
-		radial-gradient(3px 100px at 150px 117.5px, rgb(156, 14, 137), transparent),
-		radial-gradient(2px 100px at 0px 150px, rgb(23, 41, 206), transparent),
-		radial-gradient(2px 100px at 300px 150px, rgb(249, 121, 16), transparent),
-		radial-gradient(2px 100px at 150px 75px, rgb(255, 116, 10), transparent),
-		radial-gradient(3px 100px at 150px 210px, rgb(255, 162, 0), transparent),
-		radial-gradient(4px 100px at 300px 210px, rgb(255, 123, 0), transparent);
-	background-size: 300px 235px, 300px 235px, 300px 235px, 300px 150px,
-		300px 150px, 300px 150px, 300px 210px, 300px 210px;
-	animation: hi 150s linear infinite;
+  content: "";
+  position: absolute;
+  inset: -120%;
+  rotate: -45deg;
+  background: #000000;
+  background-image:
+    radial-gradient(3px 100px at 0px 235px, rgb(255, 140, 17), transparent),
+    radial-gradient(2px 100px at 300px 235px, rgb(255, 119, 0), transparent),
+    radial-gradient(3px 100px at 150px 117.5px, rgb(156, 14, 137), transparent),
+    radial-gradient(2px 100px at 0px 150px, rgb(23, 41, 206), transparent),
+    radial-gradient(2px 100px at 300px 150px, rgb(249, 121, 16), transparent),
+    radial-gradient(2px 100px at 150px 75px, rgb(255, 116, 10), transparent),
+    radial-gradient(3px 100px at 150px 210px, rgb(255, 162, 0), transparent),
+    radial-gradient(4px 100px at 300px 210px, rgb(255, 123, 0), transparent);
+  background-size:
+    300px 235px,
+    300px 235px,
+    300px 235px,
+    300px 150px,
+    300px 150px,
+    300px 150px,
+    300px 210px,
+    300px 210px;
+  animation: hi 150s linear infinite;
 }
 
 @keyframes hi {
-	0% {
-		background-position: 0px 220px, 3px 220px, 151.5px 337.5px, 50px 16px,
-			53px 16px, 201.5px 91px, 175px 235px, 203px 121px;
-	}
-	to {
-		background-position: 0px 6800px, 3px 6800px, 151.5px 6917.5px, 50px 5416px,
-			53px 5416px, 201.5px 5491px, 175px 13391px, 203px 14741px;
-	}
+  0% {
+    background-position:
+      0px 220px,
+      3px 220px,
+      151.5px 337.5px,
+      50px 16px,
+      53px 16px,
+      201.5px 91px,
+      175px 235px,
+      203px 121px;
+  }
+  to {
+    background-position:
+      0px 6800px,
+      3px 6800px,
+      151.5px 6917.5px,
+      50px 5416px,
+      53px 5416px,
+      201.5px 5491px,
+      175px 13391px,
+      203px 14741px;
+  }
 }

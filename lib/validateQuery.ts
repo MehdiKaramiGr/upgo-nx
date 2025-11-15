@@ -7,17 +7,17 @@ import { z, ZodSchema } from "zod";
  * @returns Parsed data if valid, or throws ZodError
  */
 export function validateQuery<T extends ZodSchema<any>>(
-	input: string | Request,
-	schema: T
+  input: string | Request,
+  schema: T,
 ) {
-	const url = typeof input === "string" ? new URL(input) : new URL(input.url);
-	const params = Object.fromEntries(url.searchParams.entries());
+  const url = typeof input === "string" ? new URL(input) : new URL(input.url);
+  const params = Object.fromEntries(url.searchParams.entries());
 
-	const parsed = schema.safeParse(params);
+  const parsed = schema.safeParse(params);
 
-	if (!parsed.success) {
-		throw parsed.error;
-	}
+  if (!parsed.success) {
+    throw parsed.error;
+  }
 
-	return parsed.data as z.infer<T>;
+  return parsed.data as z.infer<T>;
 }
