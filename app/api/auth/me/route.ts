@@ -14,7 +14,6 @@ export async function GET(req: Request) {
   } else {
     let { password_hash, storageUsed, ...userWOP } = user;
 
-    console.log("userWOP", userWOP);
     return NextResponse.json({
       ...userWOP,
       storageUsed: storageUsed.toString(),

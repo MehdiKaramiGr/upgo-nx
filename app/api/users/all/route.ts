@@ -20,7 +20,7 @@ export async function GET(request: Request) {
       : await prisma.users.findMany();
     return Response.json(
       Array.isArray(data)
-        ? data?.map(({ storageUsed, ...user }) => ({
+        ? data?.map(({ password_hash, storageUsed, ...user }) => ({
             ...user,
             storageUsed: storageUsed?.toString(),
           }))

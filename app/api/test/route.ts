@@ -9,20 +9,23 @@ export async function GET(request: Request) {
     if (!userId) {
       return;
     }
-    let data = await prisma.file.findFirst({
+    let data = await prisma.file.findMany({
       where: {
-        ownerId: userId,
+        owner_id: userId,
       },
 
       include: {
-        owner: true,
+        owner: {
+          select: {
+            id: true,
+            email: true,
+            username: true,
+            is_active: true,
+          },
+        },
       },
     });
 
-    // @ts-ignore
-    data.owner.storageUsed = data?.owner.storageUsed.toString();
-
-    console.log("data", data);
     return Response.json(data);
   } catch (err) {
     if (err instanceof z.ZodError) {

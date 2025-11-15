@@ -103,82 +103,84 @@ model users {
   refresh_tokens refresh_tokens[]
   user_roles     user_roles[]
 
-  files    file[]    @relation("ownerFiles")
-  fileAcls file_acl[]
+  files    file[]    @relation("owner_files")
+  file_acls file_acl[]
   folders  folder[]
 }
 
 model file {
   id              String @id @default(uuid())
-  owner           users  @relation(fields: [ownerId], references: [id], name: "ownerFiles")
-  ownerId         String @db.Uuid
+  owner           users  @relation(fields: [owner_id], references: [id], name: "owner_files")
+  owner_id        String @db.Uuid
   name            String
   size            Int
-  mimeType        String?
-  storagePath     String // e.g. "users/{userId}/files/{uuid}.bin" or s3 key
-  isPublic        Boolean   @default(false)
-  publicExpiresAt DateTime?
+  mime_type        String?
+  storage_path     String // e.g. "users/{userId}/files/{uuid}.bin" or s3 key
+  is_public        Boolean   @default(false)
+  public_expires_at DateTime?
   meta            Json? // metafile as JSON (exif, custom tags)
-  folderId        String? // parent folder
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  folder_id        String? // parent folder
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  is_deleted       Boolean   @default(false)
+  deleted_at       DateTime?
 
   // relationships
-  folder      folder?       @relation(fields: [folderId], references: [id])
-  aclEntries  file_acl[]
+  folder      folder?       @relation(fields: [folder_id], references: [id])
+  acl_entries  file_acl[]
   versions    file_version[]
-  publicLinks public_link[]
+  public_links public_link[]
 }
 
 model file_version {
   id          String   @id @default(uuid())
-  fileId      String
-  file        file     @relation(fields: [fileId], references: [id])
-  versionNo   Int      @default(1)
-  storagePath String
+  file_id      String
+  file        file     @relation(fields: [file_id], references: [id])
+  version_no   Int      @default(1)
+  storage_path String
   size        Int
-  mimeType    String?
-  createdAt   DateTime @default(now())
+  mime_type    String?
+  created_at   DateTime @default(now())
 }
 
 model file_acl {
   id        String   @id @default(uuid())
-  fileId    String
-  file      file     @relation(fields: [fileId], references: [id])
-  userId    String    @db.Uuid
-  user      users    @relation(fields: [userId], references: [id])
-  canRead   Boolean  @default(true)
-  canWrite  Boolean  @default(false)
-  canShare  Boolean  @default(false)
-  createdAt DateTime @default(now())
+  file_id    String
+  file      file     @relation(fields: [file_id], references: [id])
+  user_id    String    @db.Uuid
+  user      users    @relation(fields: [user_id], references: [id])
+  can_read   Boolean  @default(true)
+  can_write  Boolean  @default(false)
+  can_share  Boolean  @default(false)
+  created_at DateTime @default(now())
 
-  @@unique([fileId, userId])
+  @@unique([file_id, user_id])
 }
 
 model folder {
   id        String   @id @default(uuid())
-  ownerId   String   @db.Uuid 
-  owner     users    @relation(fields: [ownerId], references: [id])
+  owner_id   String   @db.Uuid 
+  owner     users    @relation(fields: [owner_id], references: [id])
   name      String
-  parentId  String?  
-  parent    folder?  @relation("FolderChildren", fields: [parentId], references: [id])
+  parent_id  String?  
+  parent    folder?  @relation("FolderChildren", fields: [parent_id], references: [id])
   children  folder[] @relation("FolderChildren")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   files    file[]
 }
 
 model public_link {
   id           String    @id @default(uuid())
-  fileId       String
-  file         file      @relation(fields: [fileId], references: [id])
+  file_id       String
+  file         file      @relation(fields: [file_id], references: [id])
   token        String    @unique // random token for public access
-  expiresAt    DateTime?
-  maxDownloads Int? // optional limit
-  createdAt    DateTime  @default(now())
-  createdBy    String? // user id who created
+  expires_at    DateTime?
+  max_downloads Int? // optional limit
+  created_at    DateTime  @default(now())
+  created_by    String? // user id who created
   downloads    Int       @default(0)
 
-  @@index([expiresAt], map: "idx_publiclink_expiresAt")
+  @@index([expires_at], map: "idx_publiclink_expires_at")
 }

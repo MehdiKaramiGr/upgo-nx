@@ -102,17 +102,17 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "file" (
     "id" TEXT NOT NULL,
-    "ownerId" UUID NOT NULL,
+    "owner_id" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "size" INTEGER NOT NULL,
-    "mimeType" TEXT,
-    "storagePath" TEXT NOT NULL,
-    "isPublic" BOOLEAN NOT NULL DEFAULT false,
-    "publicExpiresAt" TIMESTAMP(3),
+    "mime_type" TEXT,
+    "storage_path" TEXT NOT NULL,
+    "is_public" BOOLEAN NOT NULL DEFAULT false,
+    "public_expires_at" TIMESTAMP(3),
     "meta" JSONB,
-    "folderId" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "folder_id" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "file_pkey" PRIMARY KEY ("id")
 );
@@ -120,12 +120,12 @@ CREATE TABLE "file" (
 -- CreateTable
 CREATE TABLE "file_version" (
     "id" TEXT NOT NULL,
-    "fileId" TEXT NOT NULL,
-    "versionNo" INTEGER NOT NULL DEFAULT 1,
-    "storagePath" TEXT NOT NULL,
+    "file_id" TEXT NOT NULL,
+    "version_no" INTEGER NOT NULL DEFAULT 1,
+    "storage_path" TEXT NOT NULL,
     "size" INTEGER NOT NULL,
-    "mimeType" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "mime_type" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "file_version_pkey" PRIMARY KEY ("id")
 );
@@ -133,12 +133,12 @@ CREATE TABLE "file_version" (
 -- CreateTable
 CREATE TABLE "file_acl" (
     "id" TEXT NOT NULL,
-    "fileId" TEXT NOT NULL,
-    "userId" UUID NOT NULL,
-    "canRead" BOOLEAN NOT NULL DEFAULT true,
-    "canWrite" BOOLEAN NOT NULL DEFAULT false,
-    "canShare" BOOLEAN NOT NULL DEFAULT false,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "file_id" TEXT NOT NULL,
+    "user_id" UUID NOT NULL,
+    "can_read" BOOLEAN NOT NULL DEFAULT true,
+    "can_write" BOOLEAN NOT NULL DEFAULT false,
+    "can_share" BOOLEAN NOT NULL DEFAULT false,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "file_acl_pkey" PRIMARY KEY ("id")
 );
@@ -146,11 +146,11 @@ CREATE TABLE "file_acl" (
 -- CreateTable
 CREATE TABLE "folder" (
     "id" TEXT NOT NULL,
-    "ownerId" UUID NOT NULL,
+    "owner_id" UUID NOT NULL,
     "name" TEXT NOT NULL,
-    "parentId" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "parent_id" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "folder_pkey" PRIMARY KEY ("id")
 );
@@ -158,12 +158,12 @@ CREATE TABLE "folder" (
 -- CreateTable
 CREATE TABLE "public_link" (
     "id" TEXT NOT NULL,
-    "fileId" TEXT NOT NULL,
+    "file_id" TEXT NOT NULL,
     "token" TEXT NOT NULL,
-    "expiresAt" TIMESTAMP(3),
-    "maxDownloads" INTEGER,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "createdBy" TEXT,
+    "expires_at" TIMESTAMP(3),
+    "max_downloads" INTEGER,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_by" TEXT,
     "downloads" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "public_link_pkey" PRIMARY KEY ("id")
@@ -194,13 +194,13 @@ CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "file_acl_fileId_userId_key" ON "file_acl"("fileId", "userId");
+CREATE UNIQUE INDEX "file_acl_file_id_user_id_key" ON "file_acl"("file_id", "user_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "public_link_token_key" ON "public_link"("token");
 
 -- CreateIndex
-CREATE INDEX "idx_publiclink_expiresAt" ON "public_link"("expiresAt");
+CREATE INDEX "idx_publiclink_expires_at" ON "public_link"("expires_at");
 
 -- AddForeignKey
 ALTER TABLE "audit_logs" ADD CONSTRAINT "audit_logs_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE NO ACTION;
@@ -227,25 +227,25 @@ ALTER TABLE "user_roles" ADD CONSTRAINT "user_roles_role_id_fkey" FOREIGN KEY ("
 ALTER TABLE "user_roles" ADD CONSTRAINT "user_roles_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "file" ADD CONSTRAINT "file_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "file" ADD CONSTRAINT "file_owner_id_fkey" FOREIGN KEY ("owner_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "file" ADD CONSTRAINT "file_folderId_fkey" FOREIGN KEY ("folderId") REFERENCES "folder"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "file" ADD CONSTRAINT "file_folder_id_fkey" FOREIGN KEY ("folder_id") REFERENCES "folder"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "file_version" ADD CONSTRAINT "file_version_fileId_fkey" FOREIGN KEY ("fileId") REFERENCES "file"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "file_version" ADD CONSTRAINT "file_version_file_id_fkey" FOREIGN KEY ("file_id") REFERENCES "file"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "file_acl" ADD CONSTRAINT "file_acl_fileId_fkey" FOREIGN KEY ("fileId") REFERENCES "file"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "file_acl" ADD CONSTRAINT "file_acl_file_id_fkey" FOREIGN KEY ("file_id") REFERENCES "file"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "file_acl" ADD CONSTRAINT "file_acl_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "file_acl" ADD CONSTRAINT "file_acl_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "folder" ADD CONSTRAINT "folder_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "folder" ADD CONSTRAINT "folder_owner_id_fkey" FOREIGN KEY ("owner_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "folder" ADD CONSTRAINT "folder_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "folder"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "folder" ADD CONSTRAINT "folder_parent_id_fkey" FOREIGN KEY ("parent_id") REFERENCES "folder"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public_link" ADD CONSTRAINT "public_link_fileId_fkey" FOREIGN KEY ("fileId") REFERENCES "file"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "public_link" ADD CONSTRAINT "public_link_file_id_fkey" FOREIGN KEY ("file_id") REFERENCES "file"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

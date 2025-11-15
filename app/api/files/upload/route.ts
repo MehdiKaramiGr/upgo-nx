@@ -15,7 +15,6 @@ export async function POST(req: Request) {
   const fileName = req.headers.get("x-filename") || "file.bin";
   const fileSize = Number(req.headers.get("x-filesize")) || 0;
   const fileMemeType = req.headers.get("x-filememetype") || "file.bin";
-  console.log("fileSize", { fileMemeType, fileSize });
 
   const fileId = randomUUID();
   const objectName = `uploads/${userId}/${fileId}-${fileName}`;
@@ -33,7 +32,7 @@ export async function POST(req: Request) {
     fileName,
     fileSize,
     fileMemeType,
-    publicUrl
+    objectName
   );
 
   console.log("fileMeta", fileMeta);

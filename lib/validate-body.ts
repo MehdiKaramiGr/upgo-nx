@@ -11,6 +11,7 @@ export async function validateBody<T extends ZodSchema<any>>(
   schema: T
 ) {
   const body = await req.json();
+  console.log("body", body);
   const parsed = schema.safeParse(body);
 
   if (!parsed.success) {
