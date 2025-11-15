@@ -98,7 +98,87 @@ model users {
   is_active      Boolean?         @default(true)
   created_at     DateTime?        @default(now()) @db.Timestamp(6)
   updated_at     DateTime?        @default(now()) @db.Timestamp(6)
+  storageUsed    BigInt           @default(0)
   audit_logs     audit_logs[]
   refresh_tokens refresh_tokens[]
   user_roles     user_roles[]
+
+  files    file[]    @relation("ownerFiles")
+  fileAcls file_acl[]
+  folders  folder[]
+}
+
+model file {
+  id              String @id @default(uuid())
+  owner           users  @relation(fields: [ownerId], references: [id], name: "ownerFiles")
+  ownerId         String @db.Uuid
+  name            String
+  size            Int
+  mimeType        String?
+  storagePath     String // e.g. "users/{userId}/files/{uuid}.bin" or s3 key
+  isPublic        Boolean   @default(false)
+  publicExpiresAt DateTime?
+  meta            Json? // metafile as JSON (exif, custom tags)
+  folderId        String? // parent folder
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // relationships
+  folder      folder?       @relation(fields: [folderId], references: [id])
+  aclEntries  file_acl[]
+  versions    file_version[]
+  publicLinks public_link[]
+}
+
+model file_version {
+  id          String   @id @default(uuid())
+  fileId      String
+  file        file     @relation(fields: [fileId], references: [id])
+  versionNo   Int      @default(1)
+  storagePath String
+  size        Int
+  mimeType    String?
+  createdAt   DateTime @default(now())
+}
+
+model file_acl {
+  id        String   @id @default(uuid())
+  fileId    String
+  file      file     @relation(fields: [fileId], references: [id])
+  userId    String    @db.Uuid
+  user      users    @relation(fields: [userId], references: [id])
+  canRead   Boolean  @default(true)
+  canWrite  Boolean  @default(false)
+  canShare  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@unique([fileId, userId])
+}
+
+model folder {
+  id        String   @id @default(uuid())
+  ownerId   String   @db.Uuid 
+  owner     users    @relation(fields: [ownerId], references: [id])
+  name      String
+  parentId  String?  
+  parent    folder?  @relation("FolderChildren", fields: [parentId], references: [id])
+  children  folder[] @relation("FolderChildren")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  files    file[]
+}
+
+model public_link {
+  id           String    @id @default(uuid())
+  fileId       String
+  file         file      @relation(fields: [fileId], references: [id])
+  token        String    @unique // random token for public access
+  expiresAt    DateTime?
+  maxDownloads Int? // optional limit
+  createdAt    DateTime  @default(now())
+  createdBy    String? // user id who created
+  downloads    Int       @default(0)
+
+  @@index([expiresAt], map: "idx_publiclink_expiresAt")
 }

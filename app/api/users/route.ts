@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { validateQuery } from "@/lib/validateQuery";
+import { validateQuery } from "@/lib/validate-query";
 
 export async function GET(request: Request) {
   try {
@@ -8,7 +8,7 @@ export async function GET(request: Request) {
       request,
       z.object({
         id: z.uuid().optional(),
-      }),
+      })
     );
 
     const data = query?.id
