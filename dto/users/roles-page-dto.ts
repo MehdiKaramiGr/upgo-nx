@@ -8,4 +8,4 @@ const rolePagePayloadDto = z.object({
 
 export { rolePagePayloadDto };
 
-export type appPagePayloadType = z.infer<typeof rolePagePayloadDto>;
+export type rolePagePayloadType = z.infer<typeof rolePagePayloadDto>;

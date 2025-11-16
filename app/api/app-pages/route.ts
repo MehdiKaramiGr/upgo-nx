@@ -46,6 +46,35 @@ export async function GET(request: Request) {
       } else {
         return Response.json(finalPages);
       }
+    } else if (query.role_id) {
+      let pages = await prisma.roles.findMany({
+        where: {
+          id: query.role_id,
+        },
+
+        include: {
+          role_page_access: {
+            include: {
+              app_pages: true,
+            },
+          },
+        },
+      });
+
+      const finalPages = [
+        ...new Map(
+          pages
+            .flatMap((p) => p.role_page_access.map((rpa) => rpa.app_pages))
+            .filter((page): page is NonNullable<typeof page> => page !== null)
+            .map((page) => [page.id, page])
+        ).values(),
+      ];
+      if (query.only_ids) {
+        const finalPageIds = finalPages.map((page) => page.id);
+        return Response.json(finalPageIds);
+      } else {
+        return Response.json(finalPages);
+      }
     } else {
       const data = await prisma.app_pages.findMany({});
       return Response.json(data);

@@ -48,6 +48,38 @@ export async function GET(request: Request) {
       } else {
         return Response.json(finalActions);
       }
+    } else if (query.role_id) {
+      let actions = await prisma.roles.findMany({
+        where: {
+          id: query.role_id,
+        },
+        include: {
+          role_action_access: {
+            include: {
+              access_actions: true,
+            },
+          },
+        },
+      });
+
+      const finalActions = [
+        ...new Map(
+          actions
+            .flatMap((p) =>
+              p.role_action_access.map((rpa) => rpa.access_actions)
+            )
+            .filter(
+              (action): action is NonNullable<typeof action> => action !== null
+            )
+            .map((action) => [action.id, action])
+        ).values(),
+      ];
+      if (query.only_ids) {
+        const finalActionIds = finalActions.map((page) => page.id);
+        return Response.json(finalActionIds);
+      } else {
+        return Response.json(finalActions);
+      }
     } else {
       const data = await prisma.access_actions.findMany({});
       return Response.json(data);

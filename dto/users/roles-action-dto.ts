@@ -8,4 +8,4 @@ const roleActionPayloadDto = z.object({
 
 export { roleActionPayloadDto };
 
-export type appActionPayloadType = z.infer<typeof roleActionPayloadDto>;
+export type roleActionPayloadType = z.infer<typeof roleActionPayloadDto>;

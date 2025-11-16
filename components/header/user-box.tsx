@@ -33,7 +33,7 @@ const UserBox = () => {
                 icon: <AvatarIcon />,
               }}
               className="transition-transform cursor-pointer"
-              description={user.email}
+              // description={user.email}
               name={user.full_name}
             />
           </PopoverTrigger>
