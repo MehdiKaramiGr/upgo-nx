@@ -5,7 +5,7 @@ import { validateBody } from "@/lib/validate-body";
 import {
   getUsersRolesQueryDto,
   mutateUsersRolesDto,
-} from "@/dto/users/user-roles";
+} from "@/dto/users/user-roles-dto";
 
 export async function GET(request: Request) {
   try {

@@ -1,5 +1,5 @@
-import { SignInDtoType } from "@/dto/auth/signin";
-import { mutateUsersRolesDtoType } from "@/dto/users/user-roles";
+import { SignInDtoType } from "@/dto/auth/signin-dto";
+import { mutateUsersRolesDtoType } from "@/dto/users/user-roles-dto";
 import http from "@/lib/http";
 import { addToast } from "@heroui/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

@@ -5,8 +5,8 @@ import { validateBody } from "@/lib/validate-body";
 import {
   getUsersRolesQueryDto,
   mutateUsersRolesDto,
-} from "@/dto/users/user-roles";
-import { changeUserActiveStateDto } from "@/dto/users/change-user-active-state";
+} from "@/dto/users/user-roles-dto";
+import { changeUserActiveStateDto } from "@/dto/users/change-user-active-state-dto";
 
 export async function POST(request: Request) {
   try {

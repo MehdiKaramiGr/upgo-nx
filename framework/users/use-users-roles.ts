@@ -1,6 +1,5 @@
-import { getUsersRolesQueryDtoType } from "@/dto/users/user-roles";
+import { getUsersRolesQueryDtoType } from "@/dto/users/user-roles-dto";
 import http from "@/lib/http";
-import { users } from "@/lib/prisma/generated/client";
 import { useQuery } from "@tanstack/react-query";
 
 export function useUsersRoles(props?: getUsersRolesQueryDtoType) {

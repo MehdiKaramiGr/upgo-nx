@@ -21,6 +21,7 @@ type Item = {
 
 export default function DirectoryGrid({ items }: { items: Item[] }) {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [draggingFile, setDraggingFile] = useState(false);
 
   const handleDragStart = (e: DragStartEvent) => {
     setActiveId(e.active.id as string);
@@ -45,7 +46,43 @@ export default function DirectoryGrid({ items }: { items: Item[] }) {
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDrop}>
-      <div className="gap-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 p-4">
+      <div
+        className="relative gap-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 p-4"
+        onDragEnter={(e) => {
+          setDraggingFile(true);
+        }}
+        onDragOver={(e) => {
+          e.preventDefault();
+        }}
+        onDragLeave={(e) => {
+          // Prevent flicker when moving between children
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+            setDraggingFile(false);
+          }
+        }}
+        onDrop={async (e) => {
+          e.preventDefault();
+          setDraggingFile(false);
+          const files = e.dataTransfer.files;
+          if (!files || files.length === 0) return;
+
+          const formData = new FormData();
+          for (const file of files) {
+            formData.append("files", file);
+          }
+
+          console.log("files", files);
+
+          // await fetch("/api/upload", {
+          //   method: "POST",
+          //   body: formData,
+          // });
+        }}>
+        {draggingFile && (
+          <div className="z-20 absolute inset-0 flex justify-center items-center bg-blue-500/20 backdrop-blur-md border-4 border-blue-500 rounded-xl font-semibold text-blue-700 text-lg pointer-events-none">
+            Drop files to upload
+          </div>
+        )}
         {items.map((item) =>
           item.type === "folder" ? (
             <FolderItem key={item.id} item={item} />
@@ -60,7 +97,7 @@ export default function DirectoryGrid({ items }: { items: Item[] }) {
               const activeItem = items.find((i) => i.id === activeId);
               if (!activeItem) return null;
               return (
-                <div className="flex items-center space-x-3 bg-white shadow-lg p-3 border rounded-xl">
+                <div className="flex items-center space-x-3 bg-primary-900/5 dark:bg-primary-400/5 shadow-lg backdrop-blur-md p-3 border rounded-xl">
                   {activeItem.type === "file" ? (
                     <FileIcon className="w-5 h-5 text-gray-600" />
                   ) : (
@@ -114,7 +151,7 @@ const FileItem = memo(function FileItem({ item }: { item: Item }) {
       style={style}
       {...listeners}
       {...attributes}
-      className="border rounded-xl cursor-move">
+      className="border border-slate-50 dark:border-slate-600 rounded-xl duration-75 cursor-move">
       <CardHeader className="flex items-center space-x-3">
         <FileIcon className="w-5 h-5 text-gray-600" />
         <p>{item.name}</p>

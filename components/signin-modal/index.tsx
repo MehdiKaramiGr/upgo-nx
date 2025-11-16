@@ -17,7 +17,7 @@ import { Lock, Mail } from "lucide-react";
 import SignUpModal from "../signup-modal";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import signInDto, { SignInDtoType } from "@/dto/auth/signin";
+import signInDto, { SignInDtoType } from "@/dto/auth/signin-dto";
 import { mutateSignIn } from "@/framework/auth/mutate-signin";
 // import { toast } from "react-toastify";
 

@@ -1,4 +1,4 @@
-import { changeUserActiveStateDtoType } from "@/dto/users/change-user-active-state";
+import { changeUserActiveStateDtoType } from "@/dto/users/change-user-active-state-dto";
 import http from "@/lib/http";
 import { addToast } from "@heroui/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

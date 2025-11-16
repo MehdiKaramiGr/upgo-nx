@@ -1,5 +1,6 @@
 // /app/sandbox/page.tsx
 "use client";
+import { usePages } from "@/framework/app-pages/use-pages";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -52,6 +53,9 @@ export default function Page() {
     xhr.send(file);
   };
 
+  const pages = usePages();
+
+  console.log("pages?.data", pages?.data?.[0]);
   return (
     <div style={{ padding: 40 }}>
       <h1>MinIO Upload Test with Progress</h1>

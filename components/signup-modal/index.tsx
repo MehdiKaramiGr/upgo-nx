@@ -1,6 +1,6 @@
 "use client";
 
-import signUpDto, { SignUpDtoType } from "@/dto/auth/signup";
+import signUpDto, { SignUpDtoType } from "@/dto/auth/signup-dto";
 import { mutateSignUp } from "@/framework/auth/mutate-signup";
 import {
   Modal,
