@@ -3,25 +3,24 @@ import { useCurrentUser } from "@/framework/auth/use-current-user";
 
 import SignInModal from "../signin-modal";
 
-import React from "react";
 import {
   Avatar,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Popover,
   PopoverTrigger,
   PopoverContent,
   Button,
   User,
+  AvatarIcon,
 } from "@heroui/react";
 import { mutateLogout } from "@/framework/auth/mutate-logout";
 
 const UserBox = () => {
   const { data: user } = useCurrentUser();
   const mLogout = mutateLogout();
-  console.log("user", user);
+
   return (
     <>
       {user ? (
@@ -30,10 +29,11 @@ const UserBox = () => {
             <User
               as="button"
               avatarProps={{
-                src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+                // src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+                icon: <AvatarIcon />,
               }}
               className="transition-transform cursor-pointer"
-              description={user.email}
+              // description={user.email}
               name={user.full_name}
             />
           </PopoverTrigger>
@@ -47,8 +47,10 @@ const UserBox = () => {
                     isBordered
                     radius="full"
                     size="md"
-                    src="https://i.pravatar.cc/150?u=a04258114e29026702d"
-                  />
+                    // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
+                  >
+                    <AvatarIcon />
+                  </Avatar>
                   <div className="flex flex-col justify-center items-start">
                     <h4 className="font-semibold text-default-600 text-small leading-none">
                       {user.full_name}

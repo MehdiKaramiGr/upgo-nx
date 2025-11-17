@@ -1,4 +1,4 @@
-import { SignInDtoType } from "@/dto/auth/signin";
+import { SignInDtoType } from "@/dto/auth/signin-dto";
 import http from "@/lib/http";
 import { addToast } from "@heroui/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { validateQuery } from "@/lib/validateQuery";
+import { validateQuery } from "@/lib/validate-query";
 
 export async function GET(request: Request) {
   try {
@@ -8,7 +8,7 @@ export async function GET(request: Request) {
       request,
       z.object({
         id: z.uuid().optional(),
-      }),
+      })
     );
 
     const data = query?.id
@@ -18,7 +18,14 @@ export async function GET(request: Request) {
           },
         })
       : await prisma.users.findMany();
-    return Response.json(data);
+    return Response.json(
+      Array.isArray(data)
+        ? data?.map(({ storageUsed, ...user }) => ({
+            ...user,
+            storageUsed: storageUsed?.toString(),
+          }))
+        : data
+    );
   } catch (err) {
     if (err instanceof z.ZodError) {
       return Response.json({ error: z.treeifyError(err) }, { status: 400 });
