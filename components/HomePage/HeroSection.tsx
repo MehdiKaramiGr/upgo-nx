@@ -3,7 +3,7 @@
 import Button from "@/components/ui/button";
 import BlurText from "@/components/ReactBits/BlurText";
 
-const HERO_TITLE = "NxUpGo";
+const HERO_TITLE = "UpGoNx";
 const HERO_SUBTITLE = "The Next Level of File Management";
 
 export function HeroSection() {
@@ -19,10 +19,6 @@ export function HeroSection() {
         direction="bottom"
         className="text-2xl mb-8"
       />
-      <div className="flex gap-4">
-        <Button color="primary">Get Started</Button>
-        <Button variant="solid">Learn More</Button>
-      </div>
     </section>
   );
 }
