@@ -7,17 +7,17 @@ const insertFileMeta = async (
   size: number,
   mimeType: string,
   storagePath: string,
-  folderId?: string
+  folderId?: string | null
 ) => {
   let res = await prisma.file.create({
     data: {
       id,
-      ownerId,
+      owner_id: ownerId,
       name: fileName,
       size,
-      mimeType,
-      storagePath,
-      folderId,
+      mime_type: mimeType,
+      storage_path: storagePath,
+      folder_id: folderId,
     },
   });
   return res;

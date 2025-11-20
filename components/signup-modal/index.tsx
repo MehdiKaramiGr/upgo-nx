@@ -39,7 +39,6 @@ export default function SignUpModal({
 
   const onSubmit = async (data: SignUpDtoType) => {
     let res = await mSignUp.mutateAsync(data);
-    console.log("res", res);
     if (res?.success) {
       signUpForm.reset();
       onOpenChange(false);

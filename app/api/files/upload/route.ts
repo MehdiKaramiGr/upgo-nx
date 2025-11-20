@@ -5,6 +5,7 @@ import { randomUUID } from "crypto";
 import { Readable } from "stream";
 import { getUserFromAT } from "@/service/get-current-user";
 import insertFileMeta from "@/service/insert-file-meta";
+import thmObjectName from "@/lib/thm-object-name";
 
 export async function POST(req: Request) {
   const userId = (await getUserFromAT())?.userID;
@@ -12,9 +13,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const bucket = process.env.MINIO_BUCKET!;
+  const thmBucket = process.env.MINIO_BUCKET_THM!;
   const fileName = req.headers.get("x-filename") || "file.bin";
   const fileSize = Number(req.headers.get("x-filesize")) || 0;
   const fileMemeType = req.headers.get("x-filememetype") || "file.bin";
+  const folderId = req.headers.get("x-folderid");
 
   const fileId = randomUUID();
   const objectName = `uploads/${userId}/${fileId}-${fileName}`;
@@ -32,20 +35,34 @@ export async function POST(req: Request) {
     fileName,
     fileSize,
     fileMemeType,
-    objectName
+    objectName,
+    folderId
   );
 
-  console.log("fileMeta", fileMeta);
+  // console.log("fileMeta", fileMeta);
 
-  // Convert Web ReadableStream to Node.js Readable
-  const body = req.body;
-  if (!body) return NextResponse.json({ error: "No body" }, { status: 400 });
+  const arrayBuffer = await req.arrayBuffer();
+  const fileBuffer = Buffer.from(arrayBuffer);
 
-  // @ts-ignore
-  const nodeStream = Readable.fromWeb(body);
+  let thumbnailObject = null;
 
-  let res = await minio.putObject(bucket, objectName, nodeStream);
-  console.log("res", res, nodeStream, publicUrl);
+  if (fileMemeType.startsWith("image/")) {
+    const sharp = (await import("sharp")).default;
+
+    const thumbnailBuffer = await sharp(fileBuffer)
+      .resize(1000, 1000, { fit: "inside" })
+      .webp({ quality: 80 })
+      .toBuffer();
+
+    await minio.putObject(
+      thmBucket,
+      thmObjectName(userId, fileId),
+      thumbnailBuffer
+    );
+  }
+
+  let res = await minio.putObject(bucket, objectName, fileBuffer);
+  console.log("res", res, publicUrl);
   return NextResponse.json({
     fileId,
     objectName,

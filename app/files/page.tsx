@@ -14,9 +14,7 @@ const FilesPage = () => {
     <div className="p-5">
       <h2 className="mb-2 text-3xl">Files Panel</h2>
 
-      <Card className="p-1">
-        <DirectoryGrid items={items} />
-      </Card>
+      <DirectoryGrid items={items} />
     </div>
   );
 };

@@ -5,7 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model access_actions {
@@ -99,9 +98,10 @@ model users {
   created_at     DateTime?        @default(now()) @db.Timestamp(6)
   updated_at     DateTime?        @default(now()) @db.Timestamp(6)
   storageUsed    BigInt           @default(0)
+  storageLimit   BigInt           @default(2000000000)
   audit_logs     audit_logs[]
   refresh_tokens refresh_tokens[]
-  user_roles     user_roles[]
+  user_roles     user_roles[] 
 
   files    file[]    @relation("owner_files")
   file_acls file_acl[]
@@ -183,4 +183,19 @@ model public_link {
   downloads    Int       @default(0)
 
   @@index([expires_at], map: "idx_publiclink_expires_at")
+}
+
+
+model file_deletion_queue {
+  id         String   @id @default(cuid())
+  file_id    String
+  object_key String
+  bucket     String
+  attempts   Int      @default(0)
+  locked_at  DateTime? // mark when a worker is processing
+  last_error String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([locked_at])
 }
