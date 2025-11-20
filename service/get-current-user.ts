@@ -3,12 +3,18 @@ import { verify } from "jsonwebtoken";
 import { prisma } from "@/lib/prisma";
 import { PrismaClientKnownRequestError } from "@/lib/prisma/generated/internal/prismaNamespace";
 
-export async function getUserFromAT(dontThrow = false) {
+export async function getUserFromAT(throwOnNull = false) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("access_token")?.value;
-  if (!accessToken) return null;
 
   try {
+    if (!accessToken) {
+      if (!throwOnNull) {
+        return null;
+      } else {
+        throw new Error("Access token not found");
+      }
+    }
     const payload = verify(accessToken, process.env.ACCESS_TOKEN_SECRET!);
 
     await prisma.users.findUniqueOrThrow({
@@ -17,7 +23,7 @@ export async function getUserFromAT(dontThrow = false) {
 
     return payload as { userID: string };
   } catch (err) {
-    if (dontThrow) {
+    if (!throwOnNull) {
       return null;
     } else {
       if (

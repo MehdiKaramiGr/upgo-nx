@@ -40,6 +40,7 @@ export default function UserList() {
         <TableHeader>
           <TableColumn>Username</TableColumn>
           <TableColumn>Email</TableColumn>
+          <TableColumn>Storage Limit</TableColumn>
           <TableColumn>Storage Used</TableColumn>
           <TableColumn>Status</TableColumn>
           <TableColumn>Actions</TableColumn>
@@ -52,7 +53,16 @@ export default function UserList() {
                 <TableCell>{u.full_name}</TableCell>
                 <TableCell>{u.email}</TableCell>
                 <TableCell>
+                  {(Number(u.storageLimit) / (1024 * 1024)).toFixed(2)} MB
+                </TableCell>
+                <TableCell>
                   {(Number(u.storageUsed) / (1024 * 1024)).toFixed(2)} MB
+                  <span className="ms-3 text-xs">
+                    {(
+                      (Number(u.storageUsed) / Number(u.storageLimit)) *
+                      100
+                    ).toFixed(2) + "%"}
+                  </span>
                 </TableCell>
                 <TableCell>
                   {u.is_active ? (

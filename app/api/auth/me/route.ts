@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getUserFromAT } from "@/service/get-current-user";
 import getUserById from "@/service/get-user-by-id";
+import { serializeBigInt } from "@/lib/serialize-big-int";
 
 export async function GET(req: Request) {
   try {
@@ -13,12 +14,9 @@ export async function GET(req: Request) {
     if (!user?.is_active) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     } else {
-      let { password_hash, storageUsed, ...userWOP } = user;
+      let { password_hash, ...userWOP } = user;
 
-      return NextResponse.json({
-        ...userWOP,
-        storageUsed: storageUsed.toString(),
-      });
+      return NextResponse.json(serializeBigInt(userWOP));
     }
   } catch (err) {
     if (err instanceof Error) {

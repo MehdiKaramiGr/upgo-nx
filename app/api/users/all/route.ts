@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { validateQuery } from "@/lib/validate-query";
+import { serializeBigInt } from "@/lib/serialize-big-int";
 
 export async function GET(request: Request) {
   try {
@@ -20,10 +21,7 @@ export async function GET(request: Request) {
       : await prisma.users.findMany();
     return Response.json(
       Array.isArray(data)
-        ? data?.map(({ password_hash, storageUsed, ...user }) => ({
-            ...user,
-            storageUsed: storageUsed?.toString(),
-          }))
+        ? data?.map(({ password_hash, ...user }) => serializeBigInt(user))
         : data
     );
   } catch (err) {
