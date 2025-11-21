@@ -1,3 +1,4 @@
+import { mutateAclAccess } from "@/framework/acl/mutate-acl-access";
 import { mutateToggleAcl } from "@/framework/acl/mutate-toggle-acl";
 import { useAcl } from "@/framework/acl/use-acl";
 import { useCurrentUser } from "@/framework/auth/use-current-user";
@@ -20,7 +21,7 @@ import {
   Chip,
   Spinner,
 } from "@heroui/react";
-import { CircleOff, DeleteIcon, Lock, Share2Icon } from "lucide-react";
+import { CircleOff, DeleteIcon, Lock, PenIcon, Share2Icon } from "lucide-react";
 
 export default function FileCardShare({
   isOpen,
@@ -37,6 +38,7 @@ export default function FileCardShare({
   const me = useCurrentUser();
   const fileAcl = useAcl(file?.id ? { file_id: file?.id } : undefined);
   const mAcl = mutateToggleAcl();
+  const mAclAccess = mutateAclAccess();
 
   return (
     <div>
@@ -58,9 +60,8 @@ export default function FileCardShare({
               <ModalBody>
                 <Table aria-label="Simple user table">
                   <TableHeader>
-                    <TableColumn>Has Access</TableColumn>
-
                     <TableColumn>Status</TableColumn>
+                    <TableColumn>Has Access</TableColumn>
                     <TableColumn>Actions</TableColumn>
                   </TableHeader>
 
@@ -76,15 +77,18 @@ export default function FileCardShare({
                       console.log("hasAccess", hasAccess);
                       return (
                         <TableRow key={u.id}>
-                          <TableCell>{u.email}</TableCell>
-
                           <TableCell>
                             {hasAccess !== undefined ? (
-                              <Chip color="success">Shared with</Chip>
+                              <Chip color="success" variant="dot">
+                                Shared{" "}
+                              </Chip>
                             ) : (
-                              <Chip color="danger">Not shared</Chip>
+                              <Chip color="danger" variant="dot">
+                                Not shared
+                              </Chip>
                             )}
                           </TableCell>
+                          <TableCell>{u.email}</TableCell>
                           <TableCell>
                             <div className="flex gap-2">
                               <Tooltip content="View User">
@@ -116,40 +120,54 @@ export default function FileCardShare({
                                     }
                                   }}>
                                   {hasAccess == undefined
-                                    ? "Share"
-                                    : "Stop Sharing"}
+                                    ? "Grant View Access"
+                                    : "Deny View Access"}
                                 </Button>
                               </Tooltip>
 
                               <Tooltip content="Edit User Access">
                                 <Button
-                                  isIconOnly
-                                  color="secondary"
+                                  radius="md"
+                                  // isIconOnly
+                                  size="sm"
+                                  isDisabled={hasAccess == undefined}
+                                  color={
+                                    hasAccess?.can_write ? "danger" : "success"
+                                  }
                                   onPress={() => {
-                                    // setCurUser(u);
-                                  }}>
-                                  <Lock />
+                                    mAclAccess.mutate({
+                                      acl_id: hasAccess!.id,
+                                      permission: "write",
+                                      active_state: !hasAccess?.can_share,
+                                    });
+                                  }}
+                                  endContent={<PenIcon size="15px" />}>
+                                  {hasAccess?.can_write
+                                    ? "Deny Write Access"
+                                    : "Grant Write Access"}
                                 </Button>
                               </Tooltip>
 
-                              <Tooltip
-                                content={
-                                  u.is_active ? "Disable User" : "Enable User"
-                                }>
+                              <Tooltip content="Edit User Access">
                                 <Button
-                                  isIconOnly
-                                  color={u.is_active ? "danger" : "success"}
-                                  className="transition-all duration-300"
+                                  radius="md"
+                                  // isIconOnly
+                                  size="sm"
+                                  isDisabled={hasAccess == undefined}
+                                  color={
+                                    hasAccess?.can_share ? "danger" : "success"
+                                  }
                                   onPress={() => {
-                                    // mChangeUserActiveState.mutate({
-                                    //   id: u.id,
-                                    //   active_state: !u.is_active,
-                                    // });
-                                  }}></Button>
-                              </Tooltip>
-                              <Tooltip content="Delete User">
-                                <Button isIconOnly color="danger" isDisabled>
-                                  <DeleteIcon />
+                                    mAclAccess.mutate({
+                                      acl_id: hasAccess!.id,
+                                      permission: "share",
+                                      active_state: !hasAccess?.can_share,
+                                    });
+                                  }}
+                                  endContent={<PenIcon size="15px" />}>
+                                  {hasAccess?.can_share
+                                    ? "Deny Share Access"
+                                    : "Grant Share Access"}
                                 </Button>
                               </Tooltip>
                             </div>

@@ -2,7 +2,6 @@
 import RoleList from "@/components/role-list";
 import UserList from "@/components/user-list";
 import { Card, CardBody, Tab, Tabs } from "@heroui/react";
-import React from "react";
 
 const users = () => {
   return (

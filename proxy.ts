@@ -4,7 +4,7 @@ import { getUserFromAT } from "./service/get-current-user";
 import { prisma } from "./lib/prisma";
 
 export async function proxy(req: NextRequest) {
-  let user = await getUserFromAT(true);
+  let user = await getUserFromAT();
 
   // Define a mapping between page_id and actual paths
   let pagePathMap = {
@@ -46,13 +46,13 @@ export async function proxy(req: NextRequest) {
 
   // If user doesn't have access or is not authenticated, redirect to login
   if (!user?.userID || !hasAccess) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   try {
     return NextResponse.next();
   } catch {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 }
 

@@ -16,7 +16,8 @@ const ThemeChangeButton = () => {
         onPress={toggleThemeMode}
         variant="flat"
         aria-label="Toggle Theme"
-        isIconOnly>
+        isIconOnly
+        radius="full">
         <SunMoon />
       </Button>
     </div>

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 // @ts-ignore: allow side-effect CSS import without type declarations
-import "./globals.css";
-import { Providers } from "./providers";
+import "../globals.css";
+import { Providers } from "../providers";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "@heroui/toast";
-import Header from "@/components/Header";
+import Header from "@/components/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

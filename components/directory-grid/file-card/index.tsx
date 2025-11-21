@@ -17,7 +17,15 @@ import FileCardMenu from "./file-card-menu";
 import FileCardMakePublic from "./file-card-make-public";
 import FileCardShare from "./file-card-share";
 
-const FileItem = memo(function FileItem({ item }: { item: file }) {
+const FileItem = memo(function FileItem({
+  item,
+  canShare,
+  canWrite,
+}: {
+  item: file;
+  canShare: boolean;
+  canWrite: boolean;
+}) {
   const { listeners, attributes, setNodeRef, transform } = useDraggable({
     id: item.id,
   });
@@ -58,6 +66,8 @@ const FileItem = memo(function FileItem({ item }: { item: file }) {
               file={item}
               makeFilePublicMethods={makeFilePublicMethods}
               shareMethods={shareMethods}
+              canShare={canShare}
+              canWrite={canWrite}
             />
           </div>
         </CardBody>

@@ -25,8 +25,12 @@ export default function FileCardMenu({
   file,
   makeFilePublicMethods,
   shareMethods,
+  canShare,
+  canWrite,
 }: {
   file: file;
+  canShare: boolean;
+  canWrite: boolean;
 
   makeFilePublicMethods: ReturnType<typeof useDisclosure>;
   shareMethods: ReturnType<typeof useDisclosure>;
@@ -37,6 +41,13 @@ export default function FileCardMenu({
   let dlLink = window.location.origin + `/api/files/download?id=${file.id}`;
 
   let disabledKeys = ["up_version", "make_public", "copy_public"];
+  if (!canShare) {
+    disabledKeys.push("make_public", "copy_public", "share");
+  }
+  if (!canWrite) {
+    disabledKeys.push("delete");
+  }
+
   return (
     <>
       <Dropdown>

@@ -17,7 +17,7 @@ import {
 } from "@heroui/react";
 import { mutateLogout } from "@/framework/auth/mutate-logout";
 
-const UserBox = () => {
+const UserBox = ({ fullTitle }: { fullTitle?: boolean }) => {
   const { data: user } = useCurrentUser();
   const mLogout = mutateLogout();
 
@@ -33,7 +33,7 @@ const UserBox = () => {
                 icon: <AvatarIcon />,
               }}
               className="transition-transform cursor-pointer"
-              // description={user.email}
+              description={fullTitle ? user.email : undefined}
               name={user.full_name}
             />
           </PopoverTrigger>

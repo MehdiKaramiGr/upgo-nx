@@ -1,14 +1,13 @@
 import Image from "next/image";
-import ThemeChangeButton from "./theme-change-button";
-
-import UserBox from "./user-box";
 import Link from "next/link";
 import HeaderLinks from "./header-links";
+import ThemeChangeButton from "./theme-change-button";
+import UserBox from "./user-box";
 
 const Header = () => {
   return (
     <header
-      className="relative flex justify-between items-center shadow-md p-4 overflow-hidden text-white dark:text-black transition-all duration-300"
+      className="relative flex justify-between items-center shadow-md p-4 h-15 overflow-hidden text-white dark:text-black transition-all duration-300"
       style={{ backgroundColor: "transparent !important" }}>
       <div className="top-0 right-0 bottom-0 left-0 -z-1 absolute bg-linear-to-r from-secondary-500 to-primary-400 opacity-30 container"></div>
       <div className="top-0 right-0 bottom-0 left-0 -z-10 absolute bg-linear-to-r from-secondary-500 to-primary-400"></div>

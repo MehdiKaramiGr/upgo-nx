@@ -22,13 +22,7 @@ import { mutateMoveFile } from "@/framework/files/mutate-move-file";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-type Item = {
-  id: string;
-  name: string;
-  type: "file" | "folder";
-};
-
-export default function DirectoryGrid({ items }: { items: Item[] }) {
+export default function DirectoryGrid() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [draggingFile, setDraggingFile] = useState(false);
 
@@ -354,7 +348,14 @@ export default function DirectoryGrid({ items }: { items: Item[] }) {
                 {userFiles?.data
                   ?.filter((f) => f.folder_id == foid)
                   ?.map((f) => {
-                    return <FileItem key={f.id} item={f} />;
+                    return (
+                      <FileItem
+                        key={f.id}
+                        item={f}
+                        canShare={true}
+                        can_write={true}
+                      />
+                    );
                   })}
               </>
             )}
@@ -367,7 +368,12 @@ export default function DirectoryGrid({ items }: { items: Item[] }) {
                 {aclFiles?.data?.map((acl) => {
                   return (
                     <div>
-                      <FileItem key={acl.id} item={acl.file} />
+                      <FileItem
+                        key={acl.id}
+                        item={acl.file}
+                        canShare={acl.can_share}
+                        canWrite={acl.can_write}
+                      />
                     </div>
                   );
                 })}
