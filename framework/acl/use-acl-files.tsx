@@ -1,5 +1,5 @@
 import http from "@/lib/http";
-import { file, file_acl, users } from "@/lib/prisma/generated/client";
+import { file, file_acl, users } from "@/prisma/generated/client";
 import { useQuery } from "@tanstack/react-query";
 
 interface aclFile extends file {

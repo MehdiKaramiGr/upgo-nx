@@ -1,5 +1,6 @@
 import { mutateDeleteFiles } from "@/framework/files/mutate-delete-file";
-import { file } from "@/lib/prisma/generated/client";
+import { file } from "@/prisma/generated/client";
+// import { file } from "@/prisma/generated/client";
 import {
   Dropdown,
   DropdownTrigger,

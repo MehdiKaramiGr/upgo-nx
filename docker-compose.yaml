@@ -2,40 +2,64 @@ version: "3.9"
 
 services:
   upgonx:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
     container_name: upgo-nx
-    ports:
-      - "3000:3000"
     env_file:
       - .env
+    environment:
+      NODE_ENV: production
     depends_on:
       - postgres
-    volumes:
-      - .:/app
+      - minio
     restart: unless-stopped
 
   postgres:
     image: postgres:16-alpine
     container_name: upgo-postgres
     environment:
-      POSTGRES_USER: upgo_user
-      POSTGRES_PASSWORD: upgo_pass
-      POSTGRES_DB: upgo_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    restart: unless-stopped
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: upgo-pgadmin
+  minio:
+    image: cgr.dev/chainguard/minio
+    container_name: minio
+    restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@upgo.local
-      PGADMIN_DEFAULT_PASSWORD: admin123
-    ports:
-      - "5050:80"
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - ./data/minio:/data
+    command: server /data --console-address ":9001"
+
+  deletion-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: ["node", "workers/deleteMinioWorker.js"]
     depends_on:
+      - minio
       - postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+
+  nginx:
+    image: nginx:alpine
+    container_name: upgo-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - upgonx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
 
 volumes:
   pgdata:
+  minio_data:

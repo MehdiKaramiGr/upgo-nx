@@ -2,8 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { validateQuery } from "@/lib/validate-query";
 import { getUserFromAT } from "@/service/get-current-user";
-import { PrismaClientKnownRequestError } from "@/lib/prisma/generated/internal/prismaNamespace";
+// import { PrismaClientKnownRequestError } from "@/prisma/generated/internal/prismaNamespace";
 import { appActionQueryDto } from "@/dto/app-action/app-action-dto";
+import { PrismaClientKnownRequestError } from "@/prisma/generated/internal/prismaNamespace";
 
 export async function GET(request: Request) {
   try {

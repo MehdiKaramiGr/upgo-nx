@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { verify } from "jsonwebtoken";
 import { prisma } from "@/lib/prisma";
-import { PrismaClientKnownRequestError } from "@/lib/prisma/generated/internal/prismaNamespace";
+import { PrismaClientKnownRequestError } from "@/prisma/generated/internal/prismaNamespace";
 
 export async function getUserFromAT(throwOnNull = false) {
   const cookieStore = await cookies();

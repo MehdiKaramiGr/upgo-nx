@@ -3,7 +3,7 @@ import { mutateToggleAcl } from "@/framework/acl/mutate-toggle-acl";
 import { useAcl } from "@/framework/acl/use-acl";
 import { useCurrentUser } from "@/framework/auth/use-current-user";
 import { useUserList } from "@/framework/users/use-user-list";
-import { file } from "@/lib/prisma/generated/client";
+import { file } from "@/prisma/generated/client";
 import {
   Modal,
   ModalContent,

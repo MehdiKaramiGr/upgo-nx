@@ -1,6 +1,6 @@
 import { aclFileQueryType } from "@/dto/acl/acl-dto";
 import http from "@/lib/http";
-import { file_acl, users } from "@/lib/prisma/generated/client";
+import { file_acl, users } from "@/prisma/generated/client";
 import { useQuery } from "@tanstack/react-query";
 
 export function useAcl(params?: aclFileQueryType) {

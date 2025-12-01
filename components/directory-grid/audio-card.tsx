@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from "react";
 import { Card, CardBody, Image, Button, Slider } from "@heroui/react";
 
@@ -8,6 +10,12 @@ export const HeartIcon = ({
   strokeWidth = 1.5,
   fill = "none",
   ...props
+}: {
+  size?: number;
+  width?: number;
+  height?: number;
+  strokeWidth?: number;
+  fill?: string;
 }) => {
   return (
     <svg

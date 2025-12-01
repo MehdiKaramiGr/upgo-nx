@@ -1,5 +1,5 @@
 import { mutateFolder } from "@/framework/folder/mutate-folder";
-import { folder } from "@/lib/prisma/generated/client";
+import { folder } from "@/prisma/generated/client";
 import {
   Modal,
   ModalContent,

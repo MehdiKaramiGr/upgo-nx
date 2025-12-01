@@ -2,7 +2,7 @@ import { useActions } from "@/framework/access-actions/use-actions";
 import { usePages } from "@/framework/app-pages/use-pages";
 import { mutateRoleAction } from "@/framework/users/mutate-roles-action";
 import { mutateRolePage } from "@/framework/users/mutate-roles-page";
-import { roles } from "@/lib/prisma/generated/client";
+import { roles } from "@/prisma/generated/client";
 import { Card, Checkbox, CheckboxGroup } from "@heroui/react";
 import React from "react";
 

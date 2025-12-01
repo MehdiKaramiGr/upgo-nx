@@ -22,9 +22,9 @@ services:
     image: postgres:16
     container_name: upgo-postgres
     environment:
-      POSTGRES_USER: upgo_user
-      POSTGRES_PASSWORD: upgo_pass
-      POSTGRES_DB: upgo_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -38,8 +38,8 @@ services:
       - "9000:9000" # S3 API
       - "9001:9001" # Web console
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin123
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
       - ./data/minio:/data
     command: server /data --console-address ":9001"

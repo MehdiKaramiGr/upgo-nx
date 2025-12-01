@@ -1,6 +1,6 @@
 import { appPageQueryType } from "@/dto/app-page/app-page-dto";
 import http from "@/lib/http";
-import { app_pages, roles } from "@/lib/prisma/generated/client";
+import { app_pages, roles } from "@/prisma/generated/client";
 import { useQuery } from "@tanstack/react-query";
 
 // Overload: when only_ids = true, return number[]

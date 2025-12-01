@@ -1,5 +1,5 @@
 import http from "@/lib/http";
-import { users } from "@/lib/prisma/generated/client";
+import { users } from "@/prisma/generated/client";
 import { useQuery } from "@tanstack/react-query";
 
 export function useUserList() {

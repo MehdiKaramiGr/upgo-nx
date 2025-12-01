@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUserFromAT } from "@/service/get-current-user";
-import { file, file_acl } from "@/lib/prisma/generated/client";
 
 export async function GET(req: NextRequest) {
   try {

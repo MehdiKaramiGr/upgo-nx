@@ -1,5 +1,5 @@
 import http from "@/lib/http";
-import { roles } from "@/lib/prisma/generated/client";
+import { roles } from "@/prisma/generated/client";
 import { useQuery } from "@tanstack/react-query";
 
 export function useRoles() {

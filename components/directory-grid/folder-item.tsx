@@ -1,7 +1,7 @@
 "use client";
 
 import { mutateDeleteFolder } from "@/framework/folder/mutate-delete-folder";
-import { folder } from "@/lib/prisma/generated/client";
+import { folder } from "@/prisma/generated/client";
 import { useDroppable } from "@dnd-kit/core";
 import {
   Button,

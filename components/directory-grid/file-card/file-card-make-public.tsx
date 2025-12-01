@@ -1,4 +1,5 @@
-import { file } from "@/lib/prisma/generated/client";
+// @ts-nocheck
+import { file } from "@/prisma/generated/client";
 import {
   Modal,
   ModalContent,

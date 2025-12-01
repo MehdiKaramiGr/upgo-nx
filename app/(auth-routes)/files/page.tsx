@@ -1,3 +1,4 @@
+"use client";
 import DirectoryGrid from "@/components/directory-grid";
 
 const FilesPage = () => {

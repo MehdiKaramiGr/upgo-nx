@@ -7,7 +7,7 @@ import {
   DragOverlay,
 } from "@dnd-kit/core";
 import { Button, Card, CardBody, Progress, useDisclosure } from "@heroui/react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import FileItem from "./file-card";
 import { useUsersFiles } from "@/framework/files/use-users-files";
 import UploadFiles from "./upload-files";
@@ -17,12 +17,12 @@ import { useAclFiles } from "@/framework/acl/use-acl-files";
 import { useCurrentUser } from "@/framework/auth/use-current-user";
 import { useFolders } from "@/framework/folder/use-folder";
 import FolderModal from "./folder-modal";
-import { folder } from "@/lib/prisma/generated/client";
+import { folder } from "@/prisma/generated/client";
 import { mutateMoveFile } from "@/framework/files/mutate-move-file";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function DirectoryGrid() {
+function DirectoryGridContent() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [draggingFile, setDraggingFile] = useState(false);
 
@@ -186,7 +186,7 @@ export default function DirectoryGrid() {
       <Card>
         <div className="p-4 border-default-200 border-b">
           <h2 className="font-semibold text-2xl">My Directory</h2>
-          <p className="mt-1 text-default-500">
+          <p className="mt-1 text-default-900">
             Welcome, {curUser?.data?.email || "User"}! Manage your files and
             folders here.
           </p>
@@ -219,7 +219,7 @@ export default function DirectoryGrid() {
                   2
                 )}
               </p>
-              <p className="text-default-500">
+              <p className="text-default-800">
                 {(
                   (Number(curUser.data?.storageLimit ?? 0) -
                     Number(curUser.data?.storageUsed ?? 0)) /
@@ -353,7 +353,7 @@ export default function DirectoryGrid() {
                         key={f.id}
                         item={f}
                         canShare={true}
-                        can_write={true}
+                        canWrite={true}
                       />
                     );
                   })}
@@ -391,8 +391,9 @@ export default function DirectoryGrid() {
                   return (
                     <div className="bg-primary-900/5 dark:bg-primary-400/5 shadow-lg backdrop-blur-md p-1 border rounded-xl">
                       <FileItem
-                        // @ts-ignore
                         item={activeItem}
+                        canShare={true}
+                        canWrite={true}
                       />
                     </div>
                   );
@@ -434,5 +435,13 @@ export default function DirectoryGrid() {
       </Card>
       <FolderModal {...folderModalMethods} renameFolder={renameFolder} />
     </div>
+  );
+}
+
+export default function DirectoryGrid() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DirectoryGridContent />
+    </Suspense>
   );
 }

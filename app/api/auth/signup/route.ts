@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     if (!email || !password) {
       return NextResponse.json(
         { error: "Email and password are required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     if (existingUser) {
       return NextResponse.json(
         { error: "Email or username already registered" },
-        { status: 409 },
+        { status: 409 }
       );
     }
 
@@ -39,17 +39,35 @@ export async function POST(req: Request) {
       },
     });
 
+    let usersCount = await prisma.users.count({});
+
+    if (usersCount == 0) {
+      await prisma.user_roles.create({
+        data: {
+          user_id: user.id,
+          role_id: 1,
+        },
+      });
+    } else {
+      await prisma.user_roles.create({
+        data: {
+          user_id: user.id,
+          role_id: 2,
+        },
+      });
+    }
+
     // Create tokens
     const accessToken = sign(
       { userID: user.id },
       process.env.ACCESS_TOKEN_SECRET!,
-      { expiresIn: "10m" },
+      { expiresIn: "10m" }
     );
 
     const refreshToken = sign(
       { userID: user.id },
       process.env.REFRESH_TOKEN_SECRET!,
-      { expiresIn: "7d" },
+      { expiresIn: "7d" }
     );
 
     // Save refresh token in DB
@@ -70,7 +88,7 @@ export async function POST(req: Request) {
           email: user.email,
         },
       },
-      { status: 201 },
+      { status: 201 }
     );
 
     res.headers.append(
@@ -81,7 +99,7 @@ export async function POST(req: Request) {
         sameSite: "lax",
         maxAge: 10 * 60,
         path: "/",
-      }),
+      })
     );
 
     res.headers.append(
@@ -92,7 +110,7 @@ export async function POST(req: Request) {
         sameSite: "lax",
         maxAge: 7 * 24 * 60 * 60,
         path: "/",
-      }),
+      })
     );
 
     return res;
@@ -100,7 +118,7 @@ export async function POST(req: Request) {
     console.error("REGISTER ERROR:", err);
     return NextResponse.json(
       { error: "Something went wrong" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

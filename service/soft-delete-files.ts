@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { file } from "@/lib/prisma/generated/client";
+import { file } from "@/prisma/generated/client";
 import thmObjectName from "@/lib/thm-object-name";
 
 const softDeleteFiles = async (files: file[]) => {

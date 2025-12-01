@@ -1,4 +1,4 @@
-import { file } from "@/lib/prisma/generated/client";
+import { file } from "@/prisma/generated/client";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import {
@@ -16,6 +16,7 @@ import { memo } from "react";
 import FileCardMenu from "./file-card-menu";
 import FileCardMakePublic from "./file-card-make-public";
 import FileCardShare from "./file-card-share";
+import bitToMB from "@/lib/bit-to-mb";
 
 const FileItem = memo(function FileItem({
   item,
@@ -49,7 +50,7 @@ const FileItem = memo(function FileItem({
           {item.mime_type?.includes("image") ? (
             <Image
               alt={item.name}
-              className="border-secondary-600/70 border-b w-full h-[200px] object-cover"
+              className="border-secondary-600/30 border-b w-full h-[200px] object-cover"
               radius="none"
               shadow="sm"
               src={`api/files/download?id=${item.id}&thm=true`}
@@ -72,17 +73,18 @@ const FileItem = memo(function FileItem({
           </div>
         </CardBody>
 
-        <CardFooter className="flex gap-3 text-small">
-          <ImageIcon className="text-secondary-500" />
+        <CardFooter className="flex justify-between gap-3 text-small">
           <Tooltip
             content={
               <div className="flex flex-col gap-1">
                 <b className="text-xs line-clamp-1">{item.name}</b>
-                <p className="text-xs line-clamp-1">{item.size}</p>
+                <p className="text-xs line-clamp-1">{bitToMB(item.size)} MB</p>
               </div>
             }>
             <b className="text-xs line-clamp-1">{item.name}</b>
           </Tooltip>
+
+          <p className="text-xs text-nowrap">{bitToMB(item.size)} MB</p>
 
           {/* <p className="text-default-500">{item.size}</p> */}
         </CardFooter>

@@ -1,5 +1,5 @@
 import http from "@/lib/http";
-import { file, folder, users } from "@/lib/prisma/generated/client";
+import { file, folder, users } from "@/prisma/generated/client";
 import { useQuery } from "@tanstack/react-query";
 
 export function useFolders() {

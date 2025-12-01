@@ -3,7 +3,7 @@ import { z } from "zod";
 import { validateQuery } from "@/lib/validate-query";
 import { appPageQueryDto } from "@/dto/app-page/app-page-dto";
 import { getUserFromAT } from "@/service/get-current-user";
-import { PrismaClientKnownRequestError } from "@/lib/prisma/generated/internal/prismaNamespace";
+import { PrismaClientKnownRequestError } from "@/prisma/generated/internal/prismaNamespace";
 
 export async function GET(request: Request) {
   try {

@@ -2,7 +2,7 @@
 import { mutateUsersRole } from "@/framework/users/mutate-users-role";
 import { useRoles } from "@/framework/users/use-roles";
 import { useUsersRoles } from "@/framework/users/use-users-roles";
-import { users } from "@/lib/prisma/generated/client";
+import { users } from "@/prisma/generated/client";
 import {
   Modal,
   ModalContent,
